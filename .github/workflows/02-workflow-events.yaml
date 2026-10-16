@@ -1,6 +1,10 @@
 name: 02 - Workflow Events
 on:
     push:
+    pull_request:
+    schedule:
+        - cron: '28 12 * * *' # Runs every day at 12:20 PM IST
+    workflow_dispatch:
 
 jobs:
     example-job:
