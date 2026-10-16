@@ -3,7 +3,7 @@ on:
     push:
     pull_request:
     schedule:
-        - cron: '28 12 * * *' # Runs every day at 12:20 PM IST
+        - cron: '34 6 * * *' # Runs every day at 12:20 PM IST
     workflow_dispatch:
 
 jobs:
