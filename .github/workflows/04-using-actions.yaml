@@ -18,6 +18,8 @@ jobs:
               with:
                   node-version: "24.x"
                   cache: npm
+                  cache-dependency-paths: |
+                      04-using-actions/react-app/package-lock.json
 
             - name: Install dependencies
               run: npm ci
