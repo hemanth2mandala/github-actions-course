@@ -7,6 +7,8 @@ on:
 jobs:
     publish-info:
         runs-on: ubuntu-latest
+        environment:
+            name: local
         steps:
             - name: Print context information
               run: |
