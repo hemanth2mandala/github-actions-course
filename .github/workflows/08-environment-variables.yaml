@@ -1,0 +1,32 @@
+name: 08 - Using Environment Variables
+
+on:
+    push:
+    workflow_dispatch:
+env:
+    WORKFLOW_VARIABLE: "This is a workflow-level environment variable"
+    OVERWRITE_VARIABLE: "Overwritten at the workflow level"
+
+jobs:
+    print-environment-variables:
+        runs-on: ubuntu-latest
+        env:
+            JOB_VARIABLE: "This is a job-level environment variable"
+            OVERWRITE_VARIABLE: "Overwritten at the job level"
+        steps:
+            - name: Display Environment Variables
+              env:
+                  STEP_VARIABLE: "This is a step-level environment variable"
+                  step_variable_lowercase: "This is a step-level environment variable in lowercase"
+              run: |
+                  echo " This is an step level environment variable: ${{ env.STEP_VARIABLE }}"
+                  echo " This is an step level environment variable in lowercase: $step_variable_lowercase"
+                  echo " This is a job level environment variable: ${{ env.JOB_VARIABLE }}"
+                  echo " This is a job level environment variable: ${{ env.OVERWRITE_VARIABLE }}"
+                  echo " This is a workflow level environment variable: ${{ env.WORKFLOW_VARIABLE }}"
+
+            - name: Overwrite Job level variable with Step level variable
+              env:
+                  OVERWRITE_VARIABLE: "Overwritten at the step level"
+              run: |
+                  echo " This is a job level environment variable overwritten at the step level: ${{ env.OVERWRITE_VARIABLE }}"
