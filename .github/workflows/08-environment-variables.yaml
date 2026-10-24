@@ -1,7 +1,6 @@
 name: 08 - Using Environment Variables
 
 on:
-    push:
     workflow_dispatch:
 env:
     WORKFLOW_VARIABLE: "This is a workflow-level environment variable"
@@ -31,7 +30,7 @@ jobs:
               run: |
                   echo " This is a job level environment variable overwritten at the step level: ${{ env.OVERWRITE_VARIABLE }}"
 
-    print-project-leve-variables:
+    print-project-level-variables:
         runs-on: ubuntu-latest
         environment: local
         steps:
