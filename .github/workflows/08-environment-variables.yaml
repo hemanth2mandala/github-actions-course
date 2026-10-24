@@ -30,3 +30,11 @@ jobs:
                   OVERWRITE_VARIABLE: "Overwritten at the step level"
               run: |
                   echo " This is a job level environment variable overwritten at the step level: ${{ env.OVERWRITE_VARIABLE }}"
+
+    print-project-leve-variables:
+        runs-on: ubuntu-latest
+        environment: local
+        steps:
+            - name: Display project level environment variables
+              run: |
+                  echo " This is a project level environment variable: ${{ vars.MY_VAR }}"
