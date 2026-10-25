@@ -14,22 +14,16 @@ jobs:
           cat << EOF
           ${{ toJSON(github.event.pull_request.labels)}}
           EOF
-
-      - name: Bug step
-        if: ${{ !cancelled() && contains(github.event.pull_request.title, 'fix') }}
-        run: echo "This PR is a bug fix."
-      - name: sleep for 20 seconds
-        run: sleep 20
       - name: Success step
         run: exit 0
-      - name: I will be skipped
+      - name: I will be executed only if the previous step succeeds
         if: ${{ success() }}
         run: echo "I will print if previous steps succeed."
-      - name: I will execute
+      - name: I will execute only if the previous step fails
         if: ${{ failure() }}
         run: echo "I will print if any previous step fails."
 
-      - name: I will execute this step always
+      - name: I will execute this step always if the workflow is not cancelled
         if: ${{ !cancelled() }}
         run: echo "I will print always except if the workflow is cancelled."
 
