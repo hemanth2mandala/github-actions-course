@@ -7,6 +7,9 @@ on:
                 description: Use Cache to Download Dependencies
                 type: boolean
                 default: true
+env:
+    build-artifact-key: app-${{ github.sha }}
+    test-coverage-key: test-coverage-${{ github.sha }}
 
 jobs:
     test-build:
@@ -33,13 +36,18 @@ jobs:
               if: steps.cache.outputs.cache-hit != 'true'
               run: npm ci
             - name: Unit Tests
-              run: npm run test
+              run: npm run test -- --coverage
+            - name: Upload Test Results
+              uses: actions/upload-artifact@v7
+              with:
+                  name: ${{ env.test-coverage-key }}
+                  path: 14-artifacts/react-app/coverage
             - name: Build Code
               run: npm run build
             - name: Upload build files
               uses: actions/upload-artifact@v7
               with:
-                  name: app
+                  name: ${{ env.build-artifact-key}}
                   path: 14-artifacts/react-app/build
 
     deploy:
@@ -49,7 +57,7 @@ jobs:
             - name: Download Build Artifacts
               uses: actions/download-artifact@v8
               with:
-                  name: app
+                  name: ${{ env.build-artifact-key}}
                   path: build
             - name: Show Folder Structure
               run: ls -R
