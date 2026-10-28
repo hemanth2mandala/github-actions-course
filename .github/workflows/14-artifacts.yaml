@@ -1,0 +1,54 @@
+name: 14 - Working with Artifacts
+
+on:
+    workflow_dispatch:
+        inputs:
+            use-cache:
+                description: Use Cache to Download Dependencies
+                type: boolean
+                default: true
+
+jobs:
+    test_build:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: 14-artifcats/react-app
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v7
+            - name: Setup Node
+              uses: actions/setup-node@v6
+              with:
+                  node_version: 24.x
+            - name: Download Cached Dependencies
+              if: ${{ inputs.use-cache }}
+              id: cache
+              uses: actions/cache@v6
+              with:
+                  path: 14-artifacts/react-app/node_modules
+                  key: deps-node-modules-${{ hashFiles('14-artifacts/react-app/package-lock.json') }}
+            - name: Install Dependencies
+              if: steps.cache.outputs.cache-hit != 'true'
+              run: npm ci
+            - name: Unit Tests
+              run: npm run test
+            - name: Build Code
+              run: npm run build
+            - name: Upload build files
+              uses: actions/upload-artifact@v7
+              with:
+                  name: app
+                  path: 14-artifacts/react-app/build
+
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download Build Artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  name: app
+                  path: build
+            - name: Show Folder Structure
+              run: ls -R
