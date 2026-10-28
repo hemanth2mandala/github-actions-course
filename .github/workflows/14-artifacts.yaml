@@ -21,7 +21,7 @@ jobs:
             - name: Setup Node
               uses: actions/setup-node@v6
               with:
-                  node_version: 24.x
+                  node-version: 24.x
             - name: Download Cached Dependencies
               if: ${{ inputs.use-cache }}
               id: cache
