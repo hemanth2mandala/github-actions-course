@@ -5,18 +5,32 @@ on:
 
 jobs:
     backwards-compactability:
-        name: ${{ matrix.os}}-{{ matrix.node-version }}
+        name: ${{ matrix.os}}- ${{ matrix.node-version }}
         runs-on: ${{ matrix.os }}
         strategy:
+            fail-fast: true
             matrix:
                 node-version: [22.x, 24.x, 26.x]
                 os:
                     - ubuntu-latest
                     - windows-latest
+                include:
+                    - os: ubuntu-latest
+                      node-version: 18.x
+                    - os: ubuntu-latest
+                      node-version: 21.x
+                      tag: experimental
         steps:
             - name: Setup Node
               uses: actions/setup-node@v6
               with:
                   node-version: ${{ matrix.node-version }}
+            - name: Fail if tag is experimental
+              if: matrix.tag == 'experimental'
+              run: exit 1
             - name: Perform Some Tests
-              run: echo "Running tests on OS ${{ matrix.os }} and NodeJS ${{matrix.node-version}}"
+              run: |
+                  echo "Running tests on OS ${{ matrix.os }} and NodeJS ${{matrix.node-version}}"
+                  sleep 15
+            - name: Upload Test Artifacts
+              run: echo "uploading test artifacts"
