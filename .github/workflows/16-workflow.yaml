@@ -1,0 +1,18 @@
+name: 16 - Working With Environments
+run-name: 16 - Working with Environments | env - ${{ inputs.target-env }}
+
+on:
+    workflow_dispatch:
+        inputs:
+            target-env:
+                type: environment
+                default: local
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        environment: ${{ inputs.target-env }}
+        steps:
+            - name: Echo Vars
+              run: |
+                  echo "Env variable is ${{ vars.MY_VAR }}"
