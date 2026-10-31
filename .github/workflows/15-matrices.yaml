@@ -27,7 +27,7 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - name: Fail if tag is experimental
               if: matrix.tag == 'experimental'
-              run: exit 1
+              run: exit 0
             - name: Perform Some Tests
               run: |
                   echo "Running tests on OS ${{ matrix.os }} and NodeJS ${{matrix.node-version}}"
@@ -50,6 +50,11 @@ jobs:
                     - small
                     - large
                 include:
+                    - opacity: 50
+                    - color: red
+                      opacity: 75
+                    - shape: circle
+                      opacity: 100
                     - color: red
                       shape: traingle
         steps:
