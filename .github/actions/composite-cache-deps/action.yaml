@@ -6,7 +6,7 @@ inputs:
     description: The Node.js version to use
     default: 24.x
     required: true
-  working-directory:
+  working-dir:
     description: The working directory for the action
     default: '.'
     required: false
@@ -22,10 +22,10 @@ runs:
       id: cache
       uses: actions/cache@v6
       with:
-        path: ${{ inputs.working-directory }}/node_modules
-        key: node-modules-${{ hashFiles('${{ inputs.working-directory }}/package-lock.json') }}
+        path: ${{ inputs.working-dir }}/node_modules
+        key: node-modules-${{ hashFiles('${{ inputs.working-dir }}/package-lock.json') }}
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci
       shell: bash
-      working-directory: ${{ inputs.working-directory }}
+      working-directory: ${{ inputs.working-dir }}
