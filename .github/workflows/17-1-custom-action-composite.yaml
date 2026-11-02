@@ -1,6 +1,15 @@
-name: Custom Action Composite Workflow
+name: 17 - 1- Custom Action Composite Workflow
+run-name: 17 - 1- Custom Action Composite Workflow | environment - ${{ inputs.target-env }}
+
 on:
     workflow_dispatch:
+        inputs:
+            target-env:
+                description: The target environment for the action
+                type: choice
+                options:
+                  - dev
+                  - prod
 env:
     working-directory: 17-custom-actions/react-app
     
@@ -17,6 +26,7 @@ jobs:
               with:
                   node-version: 24.x
                   working-dir: ${{ env.working-directory }}
+                  target-env: ${{ inputs.target-env }}
             - name: Test the React App
               run: npm test
             - name: Build the React App
