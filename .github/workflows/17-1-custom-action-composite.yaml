@@ -8,11 +8,11 @@ on:
                 description: The target environment for the action
                 type: choice
                 options:
-                  - dev
-                  - prod
+                    - dev
+                    - prod
 env:
     working-directory: 17-custom-actions/react-app
-    
+
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -31,4 +31,3 @@ jobs:
               run: npm test
             - name: Build the React App
               run: npm run build
-
